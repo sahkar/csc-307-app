@@ -18,7 +18,7 @@ const TableHeader = () => {
 }
 
 const TableBody: React.FC<TableProps> = ({
-    characterData, 
+    characterData,
     removeOneCharacter
 }) => {
     const rows = characterData.map((row, index) => {
@@ -44,14 +44,14 @@ const TableBody: React.FC<TableProps> = ({
     );
 }
 
-const Table: React.FC<TableProps> = ({ 
-    characterData, 
+const Table: React.FC<TableProps> = ({
+    characterData,
     removeOneCharacter
 }) => {
     return (
         <table>
             <TableHeader />
-            <TableBody 
+            <TableBody
                 characterData={characterData}
                 removeOneCharacter={removeOneCharacter}
             />

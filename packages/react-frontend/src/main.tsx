@@ -3,7 +3,6 @@ import ReactDOMClient from "react-dom/client";
 import "./main.css";
 import MyApp from "./MyApp";
 
-
 //Create container
 const container: HTMLElement | null = document.getElementById("root");
 

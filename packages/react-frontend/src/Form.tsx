@@ -1,28 +1,41 @@
 import React, { useState } from "react";
 
-const Form = () => {
+interface FormProps {
+    handleSubmit: (person: { name: string, job: string }) => void;
+}
+
+const Form: React.FC<FormProps> = ({ handleSubmit }) => {
     const [person, setPerson] = useState({
-        name: "", 
+        name: "",
         job: ""
     });
 
-    const handleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        if (name === "job"){
+        if (name === "job") {
             setPerson({
-                name: person["name"], 
-                job: value 
+                name: person["name"],
+                job: value
             })
         }
         else {
             setPerson({
-                name: value, 
+                name: value,
                 job: person["job"]
             })
         }
-        
+
     }
-    return (  
+
+    const submitForm = () => {
+        handleSubmit(person);
+        setPerson({
+            name: "",
+            job: ""
+        });
+    }
+
+    return (
         <form>
             <label htmlFor="name">Name</label>
             <input
@@ -39,8 +52,13 @@ const Form = () => {
                 value={person.job}
                 onChange={handleChange}
             />
+            <input
+                type="button"
+                value="Submit"
+                onClick={submitForm}
+            />
         </form>
     );
 }
- 
+
 export default Form;
