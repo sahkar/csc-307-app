@@ -1,14 +1,15 @@
 import React from "react";
 
 interface TableProps {
-    characterData: { name: string, job: string }[];
-    removeOneCharacter: (index: number) => void;
+    characterData: { id: string, name: string, job: string }[];
+    removeOneCharacter: (id: string) => void;
 }
 
 const TableHeader = () => {
     return (
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Job</th>
                 <th>Remove Character</th>
@@ -21,22 +22,22 @@ const TableBody: React.FC<TableProps> = ({
     characterData,
     removeOneCharacter
 }) => {
-    const rows = characterData.map((row, index) => {
+    const rows = characterData.map((row) => {
         return (
-            <tr key={index}>
+            <tr key={row.id}>
+                <td>{row.id}</td>
                 <td>{row.name}</td>
                 <td>{row.job}</td>
                 <td>
                     <button
-                        onClick={() => removeOneCharacter(index)}
+                        onClick={() => removeOneCharacter(row.id)}
                     >
                         Delete
                     </button>
                 </td>
             </tr>
         );
-    }
-    );
+    });
     return (
         <tbody>
             {rows}

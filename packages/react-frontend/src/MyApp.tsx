@@ -3,6 +3,7 @@ import Table from "./Table";
 import Form from "./Form";
 
 interface Character {
+    id : string;
     name: string;
     job: string;
 }
@@ -10,17 +11,31 @@ interface Character {
 const MyApp = () => {
     const [characters, setCharacters] = useState<Character[]>([]);
 
-    const removeOneCharacter = (index: number) => {
-        console.log(index);
-        const updated = characters.filter((character, i) => {
-            return i !== index;
-        });
-        setCharacters(updated);
+    const removeOneCharacter = (id: string) => {
+        deleteUser(id)
+            .then((res) => {
+                if (res.status === 204) {
+                    const updated = characters.filter((character) => {
+                        return character.id !== id
+                    });
+                    setCharacters(updated);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     const updateList = (person: Character) => {
         postUser(person)
-            .then(() => setCharacters([...characters, person]))
+            .then((res) => {
+                if (res.status === 201) {
+                    return res.json();
+                }
+            })
+            .then((character) => {
+                if (character && character.id) setCharacters((prevCharacters) => [...prevCharacters, character]);
+            })
             .catch((error) => {
                 console.log(error);
             })
@@ -39,18 +54,30 @@ const MyApp = () => {
                 console.log(error);
             });
     }, []);
+    console.log(characters);
 
-    const postUser = (person : Character) => {
+    const postUser = (person: Character) => {
         const promise = fetch("http://localhost:8000/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(person)
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(person)
         });
-      
+
         return promise;
-      }
+    }
+
+    const deleteUser = (id: string) => {
+        const promise = fetch(`http://localhost:8000/users/${id}`, {
+            method: "DELETE", 
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        return promise;
+    }
 
     return (
         <div className="container">
