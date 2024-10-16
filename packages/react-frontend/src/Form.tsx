@@ -45,6 +45,7 @@ const Form: React.FC<FormProps> = ({ handleSubmit }) => {
                 value={person.name}
                 onChange={handleChange}
             />
+            <label htmlFor="job">Job</label>
             <input
                 type="text"
                 name="job"

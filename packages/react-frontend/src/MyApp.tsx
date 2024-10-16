@@ -19,7 +19,11 @@ const MyApp = () => {
     }
 
     const updateList = (person: Character) => {
-        setCharacters([...characters, person])
+        postUser(person)
+            .then(() => setCharacters([...characters, person]))
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     const fetchUsers = () => {
@@ -35,6 +39,18 @@ const MyApp = () => {
                 console.log(error);
             });
     }, []);
+
+    const postUser = (person : Character) => {
+        const promise = fetch("http://localhost:8000/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(person)
+        });
+      
+        return promise;
+      }
 
     return (
         <div className="container">
