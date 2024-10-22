@@ -3,7 +3,7 @@ import Table from "./Table";
 import Form from "./Form";
 
 interface Character {
-    id : string;
+    _id: string;
     name: string;
     job: string;
 }
@@ -16,7 +16,7 @@ const MyApp = () => {
             .then((res) => {
                 if (res.status === 204) {
                     const updated = characters.filter((character) => {
-                        return character.id !== id
+                        return character._id !== id
                     });
                     setCharacters(updated);
                 }
@@ -27,6 +27,7 @@ const MyApp = () => {
     }
 
     const updateList = (person: Character) => {
+        console.log(person)
         postUser(person)
             .then((res) => {
                 if (res.status === 201) {
@@ -34,7 +35,7 @@ const MyApp = () => {
                 }
             })
             .then((character) => {
-                if (character && character.id) setCharacters((prevCharacters) => [...prevCharacters, character]);
+                if (character && character._id) setCharacters((prevCharacters) => [...prevCharacters, character]);
             })
             .catch((error) => {
                 console.log(error);
@@ -49,7 +50,10 @@ const MyApp = () => {
     useEffect(() => {
         fetchUsers()
             .then((res) => res.json())
-            .then((json) => setCharacters(json["users_list"]))
+            .then((json) => {
+                console.log(json)
+                setCharacters(json)
+            })
             .catch((error) => {
                 console.log(error);
             });
@@ -62,7 +66,7 @@ const MyApp = () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(person)
+            body: JSON.stringify({ name: person.name, job: person.job })
         });
 
         return promise;
@@ -70,7 +74,7 @@ const MyApp = () => {
 
     const deleteUser = (id: string) => {
         const promise = fetch(`http://localhost:8000/users/${id}`, {
-            method: "DELETE", 
+            method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
             }

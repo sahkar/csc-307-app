@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 interface FormProps {
-    handleSubmit: (person: { id: string, name: string, job: string }) => void;
+    handleSubmit: (person: { _id: string, name: string, job: string }) => void;
 }
 
 const Form: React.FC<FormProps> = ({ handleSubmit }) => {
     const [person, setPerson] = useState({
-        id: "",
+        _id: "",
         name: "",
         job: ""
     });
@@ -15,14 +15,14 @@ const Form: React.FC<FormProps> = ({ handleSubmit }) => {
         const { name, value } = event.target;
         if (name === "job") {
             setPerson({
-                id: "",
+                _id: "",
                 name: person["name"],
                 job: value
             })
         }
         else {
             setPerson({
-                id: "",
+                _id: "",
                 name: value,
                 job: person["job"]
             })
@@ -33,7 +33,7 @@ const Form: React.FC<FormProps> = ({ handleSubmit }) => {
     const submitForm = () => {
         handleSubmit(person);
         setPerson({
-            id: "",
+            _id: "",
             name: "",
             job: ""
         });

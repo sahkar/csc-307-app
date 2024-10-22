@@ -1,7 +1,7 @@
 import React from "react";
 
 interface TableProps {
-    characterData: { id: string, name: string, job: string }[];
+    characterData: { _id: string, name: string, job: string }[];
     removeOneCharacter: (id: string) => void;
 }
 
@@ -19,18 +19,19 @@ const TableHeader = () => {
 }
 
 const TableBody: React.FC<TableProps> = ({
-    characterData,
+    characterData = [],
     removeOneCharacter
 }) => {
+    console.log(characterData);
     const rows = characterData.map((row) => {
         return (
-            <tr key={row.id}>
-                <td>{row.id}</td>
+            <tr key={row._id}>
+                <td>{row._id}</td>
                 <td>{row.name}</td>
                 <td>{row.job}</td>
                 <td>
                     <button
-                        onClick={() => removeOneCharacter(row.id)}
+                        onClick={() => removeOneCharacter(row._id)}
                     >
                         Delete
                     </button>
